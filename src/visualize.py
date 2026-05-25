@@ -1,7 +1,20 @@
 """可视化工具"""
 
 import matplotlib
-matplotlib.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'SimHei', 'DejaVu Sans']
+import matplotlib.font_manager as fm
+
+# 清除字体缓存，确保新装字体能被发现
+fm._load_fontmanager(try_read_cache=False)
+
+# 跨平台中文字体：Windows → Linux → macOS → 回退
+_CJK_FONTS = [
+    'Microsoft YaHei', 'SimHei',           # Windows
+    'WenQuanYi Zen Hei', 'WenQuanYi Micro Hei',  # Linux (Streamlit Cloud)
+    'PingFang SC', 'Heiti SC',              # macOS
+    'Noto Sans CJK SC', 'Noto Sans SC',     # 通用
+    'sans-serif',                            # 最终回退
+]
+matplotlib.rcParams['font.sans-serif'] = _CJK_FONTS
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 import matplotlib.pyplot as plt
